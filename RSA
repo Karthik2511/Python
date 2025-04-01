@@ -1,0 +1,23 @@
+import javax.crypto.Cipher;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+
+public class RSA{
+    public static void main(String[] args) throws Exception {
+        String message = "Hello RSA";
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(1024);
+        KeyPair keyPair = keyGen.generateKeyPair();
+
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+        byte[] encryptedMessage = cipher.doFinal(message.getBytes());
+
+        cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+        byte[] decryptedMessage = cipher.doFinal(encryptedMessage);
+
+        System.out.println("Original Message: " + message);
+        System.out.println("Encrypted Message: " + new String(encryptedMessage));
+        System.out.println("Decrypted Message: " + new String(decryptedMessage));
+    }
+}
